@@ -1,0 +1,30 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "olimex,a20-olinuxino-lime2",
+		     "olimex,a20-olinuxino-lime2-emmc";
+	description = "W1-GPIO on PB12";
+
+	fragment@0 {
+		target-path = "/";
+		__overlay__ {
+			onewire_device {
+				compatible = "w1-gpio";
+				gpios = <&pio 1 12 0>; /* PB12 GPIO_ACTIVE_HIGH */
+				pinctrl-names = "default";
+				pinctrl-0 = <&my_w1_pin>;
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&pio>;
+		__overlay__ {
+			my_w1_pin: my_w1_pin@0 {
+				pins = "PB12";
+				function = "gpio_in";
+			};			
+		};
+	};
+};
